@@ -10,22 +10,21 @@ headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleW
 #不知道為什麼browser 的 resource code 跟抓出來的不一樣所以做sibling有點奇怪ＧＧ
 #這很慢因為他是每一筆都送一個requests.get但是他可以之後用find()抓到裡面的詳細資訊 解決上面說的sibling問題
 
-wb = xlwt.Workbook()
+'''wb = xlwt.Workbook()
 ws = wb.add_sheet('A Test Sheet')
 ws.write(0, 0, "type")
 ws.write(0, 1, "Zip code")
 ws.write(0, 2, "size")
-ws.write(0, 3, "price")
-
+ws.write(0, 3, "price")'''
 
 districtDic = {
-"中正區" : "Zhongzheng_District" , "大同區" : "Datong_District" , "中山區" : "Zhongshan_District"
-,"松山區" : "Songshan_District" , "大安區" : "Da’an_District" , "萬華區" : "Wanhua_District" , "信義區" : "Xinyi_District"
-,"士林區" : "Shilin_District" , "北投區" : "Beitou_District" , "內湖區" : "Neihu_District" , "南港區" : "Nangang_District"
-,"文山區" : "Wenshan_District"}
+"中正區" : "Zhongzheng District" , "大同區" : "Datong District" , "中山區" : "Zhongshan District"
+,"松山區" : "Songshan District" , "大安區" : "Da’an District" , "萬華區" : "Wanhua District" , "信義區" : "Xinyi District"
+,"士林區" : "Shilin District" , "北投區" : "Beitou District" , "內湖區" : "Neihu District" , "南港區" : "Nangang District"
+,"文山區" : "Wenshan District"}
 
-for i in range (0,3000): 
-    time =str(i)
+for i in range (0,1): 
+    time =i*50
     resp = requests.get(url, headers = headers , params={
         'is_new_list': '1',
         'type': '', 
@@ -33,17 +32,27 @@ for i in range (0,3000):
         'searchtype': '1',
         'region': '1',
         'shType': 'clinch',
-        'firstRow' : time,
+        'firstRow' : str(time),
     })
     soup = BeautifulSoup(resp.text,"lxml")
     data = soup.find(id="content")  #找每一個的html
-
-    type1 = data.find(class_ = "lightBox").find(text=re.compile("獨立套房"))
-    type2 = data.find(class_ = "lightBox").find(text=re.compile("整層住家"))
-    type3 = data.find(class_ = "lightBox").find(text=re.compile("辦公"))
-    type4 = data.find(class_ = "lightBox").find(text=re.compile("分租套房"))
-    type5 = data.find(class_ = "lightBox").find(text=re.compile("雅房"))
-    type6 = data.find(class_ = "lightBox").find(text=re.compile("車位"))
+    lightbox_all = data.find_all(class_ = "lightBox")
+    print(lightbox_all)
+    '''for typeO in lightbox_all:
+        for t1 in typeO.find_all(text=re.compile("獨立套房")):
+            print(t1)
+        for t2 in typeO.find_all(text=re.compile("整層住家")):
+            print(t2)
+        for t3 in typeO.find_all(text=re.compile("辦公")):
+            print(t3)
+        for t4 in typeO.find_all(text=re.compile("分租套房")):
+            print(t4)
+        for t5 in typeO.find_all(text=re.compile("雅房")):
+            print(t5)
+        for t6 in typeO.find_all(text=re.compile("車位")):
+            print(t6)
+        for t7 in typeO.find_all(text=re.compile("其他")):
+            print (t7)'''
 
     #用很笨的方法因為我還是不太了解 python QQ
     #再加上我沒時間拉就湊合著用
@@ -52,7 +61,7 @@ for i in range (0,3000):
     sizeO = data.find(class_ = "lightBox").find(text=re.compile("坪"))  #output size
     priceO = data.find(class_ = "price")   #output price
 
-    if type1 != None:
+    '''if type1 != None:
         ws.write(i+1, 0, "Independent_Suite")
     elif type2 != None:
         ws.write(i+1, 0, "Whole_Floor_Home")
@@ -75,8 +84,7 @@ for i in range (0,3000):
     else:
         ws.write(i+1, 2, sizeO[0 : len(sizeO.strip()) -1 ])
     #print(priceO.i.string)
-    ws.write(i+1, 3, priceO.i.string[0:len(priceO.i.string)-4] + priceO.i.string[len(priceO.i.string)-3:])
+    ws.write(i+1, 3, priceO.i.string)
     print(i)
     wb.save('Workbook1.xls')
-    soup.decompose = True
-    soup.clear()
+    soup.decompse'''

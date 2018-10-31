@@ -66,7 +66,7 @@ for i in range (0,len(url)):
     resp = requests.get(url[i])
     soup = BeautifulSoup(resp.text , "lxml")
     inline = soup.find('ul',{'class':'inline'})
-    nextlayor = inline.find_all('li')
+    nextlayor = inline.find_all('li', limit = 2)
 
     var1 = soup.title.string
     #f = open('teacher.txt', 'a')
