@@ -61,19 +61,19 @@ url = ["http://www.ss.pku.edu.cn/index.php/teacherteam/teacherlist/1655-曹喜�
 teacherlist = []
 
 
-
+headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'}
 for i in range (0,len(url)):
-    resp = requests.get(url[i])
+    resp = requests.get(url[i], headers=headers)
     soup = BeautifulSoup(resp.text , "lxml")
     inline = soup.find('ul',{'class':'inline'})
-    nextlayor = inline.find_all('li', limit = 2)
+    
 
     var1 = soup.title.string
     #f = open('teacher.txt', 'a')
     
     print (var1[0:3])
-    print ("****************************************")
-    print (nextlayor)
+    for i in inline.find_all('li', limit = 2):
+        print(i.string)
     print ("----------------------------------------")
 
     #f.write(soup.title.string + '\n' + str(nextlayor)+ '\n'+ '\n')
